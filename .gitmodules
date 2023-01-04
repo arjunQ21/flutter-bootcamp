@@ -1,0 +1,3 @@
+[submodule "day_02/day2"]
+	path = day_02/day2
+	url = https://github.com/arjunQ21/flutter-bootcamp.git
