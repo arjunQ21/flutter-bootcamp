@@ -5,11 +5,22 @@ void main() {
   // runApp(MyApp());
   runApp(
     MaterialApp(
-      home: Scaffold(
-        body: SafeArea(child: CustomCard()),
-      ),
+      home: ScaffoldMuniKo(),
     ),
   );
+}
+
+class ScaffoldMuniKo extends StatelessWidget {
+  const ScaffoldMuniKo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(child: CustomCard()),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

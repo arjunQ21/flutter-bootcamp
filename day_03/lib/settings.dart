@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 
-class HomeWork2 extends StatelessWidget {
+class SettingsPage extends StatelessWidget {
   EdgeInsets bodyPadding = EdgeInsets.symmetric(horizontal: 8);
   SizedBox heightBox = SizedBox(height: 8);
 
-  HomeWork2({super.key});
+  SettingsPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

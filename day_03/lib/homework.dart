@@ -1,3 +1,4 @@
+import 'package:day03/settings.dart';
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
@@ -93,7 +94,12 @@ class CustomCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => SettingsPage()),
+                        );
+                      },
                       child: const Text("Enabled"),
                     ),
                     const SizedBox(
