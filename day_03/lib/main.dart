@@ -1,7 +1,15 @@
+import 'package:day03/homework.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  // runApp(MyApp());
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: SafeArea(child: CustomCard()),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
