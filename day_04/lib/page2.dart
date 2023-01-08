@@ -1,7 +1,4 @@
-import 'package:day_04/page1.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class Page2 extends StatelessWidget {
   const Page2({super.key});
@@ -13,7 +10,7 @@ class Page2 extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Page 2"),
+            const Text("Page 2"),
             ElevatedButton(
               onPressed: () {
                 // not preferred
@@ -22,7 +19,7 @@ class Page2 extends StatelessWidget {
                 // );
                 Navigator.of(context).pop();
               },
-              child: Text("GO back"),
+              child: const Text("GO back"),
             ),
           ],
         ),

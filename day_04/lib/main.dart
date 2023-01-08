@@ -3,7 +3,7 @@ import 'package:day_04/page2.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Day4());
+  runApp(const Day4());
 }
 
 class Day4 extends StatelessWidget {
@@ -11,7 +11,7 @@ class Day4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Page1(),
     );
   }
