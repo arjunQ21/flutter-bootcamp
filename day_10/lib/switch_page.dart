@@ -8,10 +8,24 @@ class SwitchPage extends StatefulWidget {
 }
 
 class _SwitchPageState extends State<SwitchPage> {
-  List<String> _colorOptions = ['red', 'green', 'blue'];
-  List<Color> _colorValues = [Colors.red, Colors.green, Colors.blue];
-  String _selectedColor = 'red';
+  // List<String> _colorOptions = ['red', 'green', 'blue'];
+  List<Map<String, dynamic>> _colorOptions = [
+    {
+      "title": "red",
+      "value": Colors.red,
+    },
+    {
+      "title": "blue",
+      "value": Colors.blue,
+    },
+    {
+      "title": "green",
+      "value": Colors.green,
+    }
+  ];
+  // List<Color> _colorValues = [Colors.red, Colors.green, Colors.blue];
 
+  late Color _selectedColor = _colorOptions[0]['value'];
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController _messageEditingController = TextEditingController();
@@ -29,8 +43,7 @@ class _SwitchPageState extends State<SwitchPage> {
     return Scaffold(
       appBar: isCheckboxOn
           ? AppBar(
-              backgroundColor:
-                  _colorValues[_colorOptions.indexOf(_selectedColor)],
+              backgroundColor: _selectedColor,
               title: const Text("Stateful Widgets"),
               actions: [
                 IconButton(
@@ -122,11 +135,12 @@ class _SwitchPageState extends State<SwitchPage> {
               DropdownButton(
                 value: _selectedColor,
                 items: _colorOptions
-                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .map((e) => DropdownMenuItem(
+                        value: e['value'], child: Text(e['title'])))
                     .toList(),
                 onChanged: (changedValue) {
                   setState(() {
-                    _selectedColor = changedValue.toString();
+                    _selectedColor = changedValue as Color;
                   });
                 },
               ),
