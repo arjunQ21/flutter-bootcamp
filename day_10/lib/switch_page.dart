@@ -8,7 +8,8 @@ class SwitchPage extends StatefulWidget {
 }
 
 class _SwitchPageState extends State<SwitchPage> {
-  List<String> _colorOptions = ['red', 'green', 'blue', "navako color"];
+  List<String> _colorOptions = ['red', 'green', 'blue'];
+  List<Color> _colorValues = [Colors.red, Colors.green, Colors.blue];
   String _selectedColor = 'red';
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -28,11 +29,8 @@ class _SwitchPageState extends State<SwitchPage> {
     return Scaffold(
       appBar: isCheckboxOn
           ? AppBar(
-              backgroundColor: _selectedColor == 'blue'
-                  ? Colors.blue
-                  : _selectedColor == 'red'
-                      ? Colors.red
-                      : Colors.green,
+              backgroundColor:
+                  _colorValues[_colorOptions.indexOf(_selectedColor)],
               title: const Text("Stateful Widgets"),
               actions: [
                 IconButton(
