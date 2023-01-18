@@ -15,12 +15,12 @@ class PersonsWithMapPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [
-            for (var person in persons)
-              ListTile(
-                title: Text(person["name"]!),
-              ),
-          ],
+          children: persons.map((person) {
+            return ListTile(
+              title: Text(person['name']!),
+              subtitle: Text(person['address']!),
+            );
+          }).toList(),
         ),
       ),
     );
