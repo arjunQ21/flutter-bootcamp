@@ -1,3 +1,4 @@
+import 'package:day_11/http_basic.dart';
 import 'package:day_11/persons_with_map_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: PersonsWithMapPage(),
+      home: HttpBasicPage(),
     );
   }
 }
