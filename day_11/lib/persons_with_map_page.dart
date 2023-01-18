@@ -14,11 +14,13 @@ class PersonsWithMapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: persons.length,
-          itemBuilder: ((context, index) => ListTile(
-                title: Text(persons[index]['name']!),
-              )),
+        child: Column(
+          children: [
+            for (var person in persons)
+              ListTile(
+                title: Text(person["name"]!),
+              ),
+          ],
         ),
       ),
     );
