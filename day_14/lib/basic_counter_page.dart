@@ -22,7 +22,9 @@ class _BasicCounterPageState extends State<BasicCounterPage> {
       body: Column(
         children: [
           CountChanger(onCountChanged: (val) {
-            print("Count variable in main page: " + val.toString());
+            setState(() {
+              count = val;
+            });
           }),
           Divider(
             thickness: 5,
