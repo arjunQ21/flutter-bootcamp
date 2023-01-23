@@ -1,3 +1,4 @@
+import 'package:day_14/count_changer.dart';
 import 'package:flutter/material.dart';
 
 import 'show_big_number.dart';
@@ -20,30 +21,9 @@ class _BasicCounterPageState extends State<BasicCounterPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        count--;
-                      });
-                    },
-                    icon: Icon(Icons.minimize)),
-                Container(
-                    width: 100, child: Center(child: Text(count.toString()))),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        count++;
-                      });
-                    },
-                    icon: Icon(Icons.add)),
-              ],
-            ),
-          ),
+          CountChanger(onCountChanged: (val) {
+            print("Count variable in main page: " + val.toString());
+          }),
           Divider(
             thickness: 5,
             color: Colors.red,
