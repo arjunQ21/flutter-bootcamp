@@ -1,44 +1,30 @@
+import 'package:day_15/app_configuration_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SwitchAndInputController extends StatefulWidget {
-  void Function(Color) onColorChanged;
-  void Function(String) onInputChanged;
+class SwitchAndInputController extends StatelessWidget {
   SwitchAndInputController({
     Key? key,
-    required this.onColorChanged,
-    required this.onInputChanged,
   }) : super(key: key);
 
   @override
-  State<SwitchAndInputController> createState() =>
-      _SwitchAndInputControllerState();
-}
-
-class _SwitchAndInputControllerState extends State<SwitchAndInputController> {
-  bool isToggled = false;
-
-  @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Switch(
-            value: isToggled,
-            onChanged: (v) {
-              setState(() {
-                isToggled = !isToggled;
-              });
-              if (v) {
-                widget.onColorChanged(Colors.green);
-              } else {
-                widget.onColorChanged(Colors.red);
-              }
+    return Consumer<AppConfigProvider>(
+        builder: (context, appConfigProviderVariable, child) {
+      return Row(
+        children: [
+          Switch(
+              value: appConfigProviderVariable.isSwitchToggled,
+              onChanged: (v) {
+                appConfigProviderVariable.toggleSwitch();
+              }),
+          Expanded(
+            child: TextField(onChanged: (v) {
+              appConfigProviderVariable.updateText(v);
             }),
-        Expanded(
-          child: TextField(
-            onChanged: widget.onInputChanged,
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

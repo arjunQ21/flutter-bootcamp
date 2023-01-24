@@ -1,7 +1,5 @@
 import 'package:day_15/bottom_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import 'switch_and_text_controller.dart';
 
@@ -13,9 +11,6 @@ class Day14HomeworkPage extends StatefulWidget {
 }
 
 class _Day14HomeworkPageState extends State<Day14HomeworkPage> {
-  Color colorOfContainer = Colors.red;
-  String textToShow = "";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,20 +20,20 @@ class _Day14HomeworkPageState extends State<Day14HomeworkPage> {
       body: Column(
         children: [
           SwitchAndInputController(
-            onColorChanged: (p0) {
-              print("Color Changed detected in main page");
-              setState(() {
-                colorOfContainer = p0;
-              });
-            },
-            onInputChanged: (p0) {
-              print("Input Changed detected in main page");
-              setState(() {
-                textToShow = p0;
-              });
-            },
-          ),
-          BottomContainer(color: colorOfContainer, text: textToShow),
+              // onColorChanged: (p0) {
+              //   print("Color Changed detected in main page");
+              //   setState(() {
+              //     colorOfContainer = p0;
+              //   });
+              // },
+              // onInputChanged: (p0) {
+              //   print("Input Changed detected in main page");
+              //   setState(() {
+              //     textToShow = p0;
+              //   });
+              // },
+              ),
+          BottomContainer(),
         ],
       ),
     );
