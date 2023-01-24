@@ -6,7 +6,18 @@ class AppConfigProvider with ChangeNotifier {
   String textToShow = "Type something in above input field";
 
 // creating constructor
-  AppConfigProvider();
+  AppConfigProvider() {
+    // changeAutomatically();
+  }
+
+  Future<void> changeAutomatically() async {
+    await Future.delayed(Duration(seconds: 1));
+    // isSwitchToggled = !isSwitchToggled;
+    // notifyListeners();
+    toggleSwitch();
+    updateText(textToShow + "!");
+    changeAutomatically();
+  }
 
   void toggleSwitch() {
     isSwitchToggled = !isSwitchToggled;
