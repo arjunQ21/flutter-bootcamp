@@ -33,7 +33,6 @@ class FruitProvider with ChangeNotifier {
       "quantity": 4,
     },
   ];
-
   void increaseQuantity(String name) {
     for (int i = 0; i < fruits.length; i++) {
       if (name == fruits[i]['name']) {

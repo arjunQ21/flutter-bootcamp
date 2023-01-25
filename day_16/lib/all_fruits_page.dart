@@ -1,3 +1,4 @@
+import 'package:day_16/components/favorite_button.dart';
 import 'package:day_16/providers/fruits_provider.dart';
 import 'package:day_16/single_fruit_page.dart';
 import 'package:flutter/material.dart';
@@ -33,16 +34,8 @@ class AllFruitsPage extends StatelessWidget {
                           e['name'] + " " + e['quantity'].toString(),
                           style: TextStyle(fontSize: 37),
                         ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            fruitProvider.toggleFavorite(e['name']);
-                          },
-                          icon: Icon(
-                            e['isFavorite']
-                                ? Icons.favorite
-                                : Icons.favorite_outline,
-                            color: Colors.red,
-                          ),
+                        trailing: FavoriteButton(
+                          fruitDetails: e,
                         ),
                       ))
                   .toList()),

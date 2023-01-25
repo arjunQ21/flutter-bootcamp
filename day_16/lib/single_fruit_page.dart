@@ -1,3 +1,4 @@
+import 'package:day_16/components/favorite_button.dart';
 import 'package:day_16/providers/fruits_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,25 +9,17 @@ class SingleFruitPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(fruitDetails['name'])),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Consumer<FruitProvider>(builder: (context, fruitProv, child) {
-          return Column(
+    return Consumer<FruitProvider>(builder: (context, fruitProv, child) {
+      return Scaffold(
+        appBar: AppBar(title: Text(fruitDetails['name'])),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () {
-                  fruitProv.toggleFavorite(fruitDetails['name']);
-                },
-                icon: Icon(
-                  fruitDetails['isFavorite']
-                      ? Icons.favorite
-                      : Icons.favorite_outline,
-                  color: Colors.red,
-                  size: 90,
-                ),
+              FavoriteButton(
+                fruitDetails: fruitDetails,
+                sizeOfIcon: 90,
               ),
               SizedBox(
                 height: 100,
@@ -49,13 +42,15 @@ class SingleFruitPage extends StatelessWidget {
                 ],
               ),
             ],
-          );
-        }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-      ),
-    );
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            fruitProv.increaseQuantity(fruitDetails['name']);
+          },
+          child: Icon(Icons.add),
+        ),
+      );
+    });
   }
 }
