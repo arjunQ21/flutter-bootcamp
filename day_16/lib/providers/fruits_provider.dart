@@ -44,6 +44,7 @@ class FruitProvider with ChangeNotifier {
   }
 
   void toggleFavorite(String name) {
+    print("Obtained fruit: " + name);
     for (int i = 0; i < fruits.length; i++) {
       if (name == fruits[i]['name']) {
         fruits[i]['isFavorite'] = !fruits[i]['isFavorite'];
