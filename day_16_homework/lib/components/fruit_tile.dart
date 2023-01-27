@@ -8,7 +8,7 @@ class FruitTile extends StatelessWidget {
   Map<String, dynamic> fruitDetails;
   FruitTile({super.key, required this.fruitDetails});
 
-
+  TextEditingController _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,64 @@ class FruitTile extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          IconButton(
+              onPressed: () {
+                _nameController.text = fruitDetails['name'];
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text("Are you sure?"),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Enter new name for: ${fruitDetails['name']}",
+                        ),
+                        TextFormField(
+                            controller: _nameController,
+                            autovalidateMode: AutovalidateMode.always,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter some name";
+                              }
+
+                              if (value.trim().length < 5) {
+                                return "Enter some name with more than 5 characters";
+                              }
+                            }),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        child: Text(
+                          "No",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text("Yes"),
+                        onPressed: () {
+                          FruitProvider provider = Provider.of<FruitProvider>(
+                              context,
+                              listen: false);
+                          provider.editFruit(
+                              fruitDetails['name'], _nameController.text);
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(fruitDetails['name'] + " edited"),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: Icon(Icons.create)),
           IconButton(
               onPressed: () {
                 showDialog(

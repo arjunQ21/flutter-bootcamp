@@ -90,6 +90,18 @@ class FruitProvider with ChangeNotifier {
     saveToDevice();
   }
 
+  void editFruit(String name, String newName) {
+    print("Obtained fruit: " + name + " , newName: " + newName);
+    for (int i = 0; i < fruits.length; i++) {
+      if (name == fruits[i]['name']) {
+        var oldValue = fruits[i];
+        oldValue['name'] = newName;
+        fruits[i] = oldValue;
+      }
+    }
+    notifyListeners();
+  }
+
   void addFruit(String name, bool isFavorite, int quantity) {
     Map<String, dynamic> fruitToAdd = {
       "name": name,
