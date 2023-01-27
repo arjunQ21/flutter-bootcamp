@@ -28,12 +28,20 @@ class AllFruitsPage extends StatelessWidget {
         return SafeArea(
           child: Column(
             children: [
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: fruitProvider.fruits.length,
-                itemBuilder: ((context, index) =>
-                    FruitTile(fruitDetails: fruitProvider.fruits[index])),
-              ),
+              fruitProvider.fruits.length > 0
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: fruitProvider.fruits.length,
+                      itemBuilder: ((context, index) =>
+                          FruitTile(fruitDetails: fruitProvider.fruits[index])),
+                    )
+                  : Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child:
+                            Text("Add some fruits from the top right button"),
+                      ),
+                    ),
             ],
           ),
         );

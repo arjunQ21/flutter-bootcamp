@@ -5,36 +5,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FruitProvider with ChangeNotifier {
   List<Map<String, dynamic>> fruits = [
-    {
-      "name": "Apple",
-      "isFavorite": false,
-      "quantity": 4,
-    },
-    {
-      "name": "Banana",
-      "isFavorite": true,
-      "quantity": 4,
-    },
-    {
-      "name": "Papaya",
-      "isFavorite": true,
-      "quantity": 4,
-    },
-    {
-      "name": "Mango",
-      "isFavorite": false,
-      "quantity": 4,
-    },
-    {
-      "name": "Orange",
-      "isFavorite": false,
-      "quantity": 4,
-    },
-    {
-      "name": "Orange",
-      "isFavorite": false,
-      "quantity": 4,
-    },
+    // {
+    //   "name": "Apple",
+    //   "isFavorite": false,
+    //   "quantity": 4,
+    // },
+    // {
+    //   "name": "Banana",
+    //   "isFavorite": true,
+    //   "quantity": 4,
+    // },
+    // {
+    //   "name": "Papaya",
+    //   "isFavorite": true,
+    //   "quantity": 4,
+    // },
+    // {
+    //   "name": "Mango",
+    //   "isFavorite": false,
+    //   "quantity": 4,
+    // },
+    // {
+    //   "name": "Orange",
+    //   "isFavorite": false,
+    //   "quantity": 4,
+    // },
+    // {
+    //   "name": "Orange",
+    //   "isFavorite": false,
+    //   "quantity": 4,
+    // },
   ];
 
   FruitProvider() {
@@ -100,6 +100,7 @@ class FruitProvider with ChangeNotifier {
       }
     }
     notifyListeners();
+    saveToDevice();
   }
 
   void addFruit(String name, bool isFavorite, int quantity) {
