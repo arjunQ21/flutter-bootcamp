@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Form Validation',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }

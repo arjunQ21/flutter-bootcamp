@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voting_system/constants.dart';
+import 'package:voting_system/screens/home_screen.dart';
+import 'package:voting_system/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -45,23 +47,28 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<Map?> checkSavedData() async {
+  Future<void> checkSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedToken = prefs.getString('accessToken');
 
     if (savedToken == null) {
-      return null;
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginScreen()));
     } else {
       var response = await http.get(Uri.parse("$baseURL/users/me"), headers: {
         'Content-Type': 'application/json',
         'Authorization': "Bearer $savedToken"
       });
 
-      if (response.statusCode == 200) {
-        var jsonDecoded = jsonDecode(response.body);
-        print(jsonDecoded);
+      var jsonDecoded = jsonDecode(response.body);
+      if (jsonDecoded['status'] == 'success') {
+        print("Login found from last saved data");
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
+        return jsonDecoded['data']['user'];
       } else {
-        return null;
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => LoginScreen()));
       }
     }
   }

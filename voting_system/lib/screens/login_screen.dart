@@ -76,8 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
         // save token
         String obtainedToken = decoded['data']['tokens']['access']['token'];
         saveToken(obtainedToken);
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()));
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Logged In ")));
       } else {
