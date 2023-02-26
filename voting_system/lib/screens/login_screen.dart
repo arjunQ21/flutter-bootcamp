@@ -1,8 +1,15 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
+import 'package:voting_system/constants.dart';
+import 'package:voting_system/screens/home_screen.dart';
 
 // utils
+import '../utils/functions.dart';
 import '/utils/constants.dart';
 
 // screens
@@ -29,8 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   RegExp emailRegX = RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-  RegExp passwordRegX =
-      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
   // handlers
   String? emailValidation(String? value) {
@@ -45,37 +50,42 @@ class _LoginScreenState extends State<LoginScreen> {
   String? passwordValidation(String? value) {
     if (value == null || value.isEmpty || value.trim() == '') {
       return 'Password is required';
-    } else if (!passwordRegX.hasMatch(value)) {
-      return 'Invalid Password';
     }
+    //  else if (!passwordRegX.hasMatch(value)) {
+    //   return 'Invalid Password';
+    // }
     return null;
   }
 
-  void handleLogin() {
+  void handleLogin() async {
     if (_formkey.currentState!.validate()) {
-      print(
-          'email: ${_emailController.text}, password: ${_passwordController.text}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Welcome back, ${_emailController.text}',
-          ),
-          backgroundColor: Colors.green.shade300,
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(
-            milliseconds: 2500,
-          ),
-          action: SnackBarAction(
-            label: 'Dismiss',
-            disabledTextColor: kLightColor,
-            textColor: kLightColor,
-            onPressed: () {
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            },
-          ),
-        ),
+      Map toSend = {
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      };
+      String jsonString = jsonEncode(toSend);
+      var response = await http.post(
+        Uri.parse("$baseURL/auth/login"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonString,
       );
-      clearData();
+      var decoded = jsonDecode(response.body);
+      if (decoded['status'] == 'success') {
+        // save token
+        String obtainedToken = decoded['data']['tokens']['access']['token'];
+        saveToken(obtainedToken);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Logged In ")));
+      } else {
+        if (decoded.containsKey('message')) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(decoded['message'])));
+        }
+      }
     }
   }
 
