@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 
+import 'functions.dart';
 import 'models/post.dart';
 
 class PullWithAsyncAwait extends StatefulWidget {
@@ -30,15 +31,10 @@ class _PullWithAsyncAwaitState extends State<PullWithAsyncAwait> {
       setState(() {
         _isLoading = true;
       });
-      final response = await http
-          .get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
-      List<dynamic> jsonDecoded = jsonDecode(response.body);
-      // posts = jsonDecoded.map((e) => Post.fromJson(e)).toList();
 
-      for (int i = 0; i < jsonDecoded.length; i++) {
-        posts.add(Post.fromJson(jsonDecoded[i]));
-      }
-      
+      posts = await getPosts();
+     
+
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));

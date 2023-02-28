@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:day_18/functions.dart';
 import 'package:day_18/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,22 +14,10 @@ class PullWithFutureBuilder extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Pull with FutureBuilder")),
       body: FutureBuilder(
-          future:
-              http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts')),
+          future: getPosts(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              // return listview
-
-              var response = snapshot.data!;
-
-              List<dynamic> jsonDecoded = jsonDecode(response.body);
-              // posts = jsonDecoded.map((e) => Post.fromJson(e)).toList();
-
-              List<Post> posts = [];
-
-              for (int i = 0; i < jsonDecoded.length; i++) {
-                posts.add(Post.fromJson(jsonDecoded[i]));
-              }
+              List<Post> posts = snapshot.data as List<Post>;
 
               return ListView.builder(
                 itemCount: posts.length,
