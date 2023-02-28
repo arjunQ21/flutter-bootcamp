@@ -12,7 +12,10 @@ class CustomTextField extends StatefulWidget {
   TextEditingController fieldController;
   String? Function(String?) handleValidation;
   IconData? prefixIcon;
+  IconData? suffixIcon;
   bool isPassword;
+  void Function()? handleTap;
+  bool readOnly;
 
   CustomTextField({
     Key? key,
@@ -22,7 +25,10 @@ class CustomTextField extends StatefulWidget {
     required this.fieldController,
     required this.handleValidation,
     this.prefixIcon,
+    this.suffixIcon,
     this.isPassword = false,
+    this.handleTap,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -49,9 +55,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: 10.0,
         ),
         TextFormField(
+          readOnly: widget.readOnly,
           controller: widget.fieldController,
           validator: widget.handleValidation,
           obscureText: widget.isPassword ? !isPasswordVisible : false,
+          onTap: widget.handleTap,
           decoration: InputDecoration(
             hintText: widget.placeholder,
             prefixIcon: widget.prefixIcon != null

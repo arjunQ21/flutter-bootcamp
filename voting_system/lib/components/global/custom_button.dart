@@ -8,9 +8,16 @@ import '/utils/constants.dart';
 class CustomButton extends StatelessWidget {
   String name;
   void Function() handleClicked;
+  Color bgColor;
+  Color textColor;
 
-  CustomButton({Key? key, required this.name, required this.handleClicked})
-      : super(key: key);
+  CustomButton({
+    Key? key,
+    required this.name,
+    required this.handleClicked,
+    this.bgColor = kPrimaryColor,
+    this.textColor = kLightColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
         elevation: MaterialStateProperty.resolveWith((states) => 0.0),
         backgroundColor: MaterialStateColor.resolveWith(
-          (states) => kPrimaryColor,
+          (states) => bgColor,
         ),
         minimumSize: MaterialStateProperty.resolveWith(
           (states) => const Size(
@@ -30,8 +37,8 @@ class CustomButton extends StatelessWidget {
       ),
       child: Text(
         name,
-        style: const TextStyle(
-          color: kLightColor,
+        style: TextStyle(
+          color: textColor,
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
         ),
