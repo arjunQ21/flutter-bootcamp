@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:voting_system/screens/splash_screen.dart';
+
+// screens
+import 'package:voting_system/screens/home_screen.dart';
+// import 'package:voting_system/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +16,10 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Form Validation',
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: HomeScreen(
+        isAdmin: true,
+      ),
+      // home: SplashScreen(),
     );
   }
 }

@@ -291,7 +291,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         child: const Text(
                           "Login now",
                           style: TextStyle(
-                            color: kLinkColor,
+                            color: kPrimaryColor,
                           ),
                         ),
                       )

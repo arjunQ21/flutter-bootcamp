@@ -1,11 +1,16 @@
-import 'dart:convert';
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:voting_system/constants.dart';
-import 'package:voting_system/screens/system/home_screen.dart';
+
+// utils
+import 'package:voting_system/utils/constants.dart';
+
+// screens
+import 'package:voting_system/screens/home_screen.dart';
 import 'package:voting_system/screens/auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,14 +35,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               CupertinoActivityIndicator(),
               SizedBox(height: 20.0),
               Text(
-                'Loading...',
+                'Loading',
                 style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],
@@ -53,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (savedToken == null) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LoginScreen()));
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
     } else {
       var response = await http.get(Uri.parse("$baseURL/users/me"), headers: {
         'Content-Type': 'application/json',
@@ -64,11 +69,17 @@ class _SplashScreenState extends State<SplashScreen> {
       if (jsonDecoded['status'] == 'success') {
         print("Login found from last saved data");
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(
+              isAdmin: true,
+            ),
+          ),
+        );
+        print(jsonDecoded['data']['user']);
         return jsonDecoded['data']['user'];
       } else {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginScreen()));
+            MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
     }
   }

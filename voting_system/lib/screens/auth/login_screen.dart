@@ -1,16 +1,15 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/material.dart';
-import 'package:voting_system/constants.dart';
-import 'package:voting_system/screens/system/home_screen.dart';
+// screens
+import 'package:voting_system/screens/home_screen.dart';
 
 // utils
+import 'package:voting_system/utils/constants.dart';
 import '../../utils/functions.dart';
-import '/utils/constants.dart';
 
 // screens
 import 'register_screen.dart';
@@ -77,13 +76,50 @@ class _LoginScreenState extends State<LoginScreen> {
         String obtainedToken = decoded['data']['tokens']['access']['token'];
         saveToken(obtainedToken);
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()));
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Logged In ")));
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(
+              isAdmin: true,
+            ),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("Logged In "),
+            backgroundColor: Colors.red.shade300,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(
+              milliseconds: 2500,
+            ),
+            action: SnackBarAction(
+              label: 'Dismiss',
+              disabledTextColor: kLightColor,
+              textColor: kLightColor,
+              onPressed: () {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              },
+            ),
+          ),
+        );
       } else {
         if (decoded.containsKey('message')) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(decoded['message'])));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(decoded['message']),
+              backgroundColor: Colors.red.shade300,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(
+                milliseconds: 2500,
+              ),
+              action: SnackBarAction(
+                label: 'Dismiss',
+                disabledTextColor: kLightColor,
+                textColor: kLightColor,
+                onPressed: () {
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                },
+              ),
+            ),
+          );
         }
       }
     }
@@ -172,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
-                            color: kLinkColor,
+                            color: kPrimaryColor,
                           ),
                         ),
                       )
@@ -276,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text(
                           "Register now",
                           style: TextStyle(
-                            color: kLinkColor,
+                            color: kPrimaryColor,
                           ),
                         ),
                       )
