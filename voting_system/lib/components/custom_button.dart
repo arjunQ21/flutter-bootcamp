@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
         elevation: MaterialStateProperty.resolveWith((states) => 0.0),
         backgroundColor: MaterialStateColor.resolveWith(
-          (states) => kButtonColor,
+          (states) => kPrimaryColor,
         ),
         minimumSize: MaterialStateProperty.resolveWith(
           (states) => const Size(
