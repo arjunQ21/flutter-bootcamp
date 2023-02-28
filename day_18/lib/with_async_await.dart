@@ -33,7 +33,12 @@ class _PullWithAsyncAwaitState extends State<PullWithAsyncAwait> {
       final response = await http
           .get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
       List<dynamic> jsonDecoded = jsonDecode(response.body);
-      posts = jsonDecoded.map((e) => Post.fromJson(e)).toList();
+      // posts = jsonDecoded.map((e) => Post.fromJson(e)).toList();
+
+      for (int i = 0; i < jsonDecoded.length; i++) {
+        posts.add(Post.fromJson(jsonDecoded[i]));
+      }
+      
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));

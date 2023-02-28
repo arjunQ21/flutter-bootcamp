@@ -1,4 +1,5 @@
 import 'package:day_18/with_async_await.dart';
+import 'package:day_18/with_future_builder.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: PullWithAsyncAwait(),
+      home: PullWithFutureBuilder(),
     );
   }
 }
