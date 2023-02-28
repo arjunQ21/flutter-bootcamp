@@ -283,7 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LoginScreen()),

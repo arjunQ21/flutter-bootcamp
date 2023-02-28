@@ -8,7 +8,7 @@ const handleValidationErrors = function() {
             errors.errors.forEach(function(err) {
                 allErrors[err.param] = err.msg.logger ? err.msg.logger : err.msg;
             });
-        }
+        }w
         if (Object.keys(allErrors).length > 0)
             return res.json({
                 status: "fail",

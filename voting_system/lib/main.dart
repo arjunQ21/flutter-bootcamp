@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:voting_system/screens/home_screen.dart';
+import 'package:voting_system/screens/register_screen.dart';
 import 'package:voting_system/screens/splash_screen.dart';
-import '/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());

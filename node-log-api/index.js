@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(require("./customErrorLayer"));
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello Sumit!");
 });
 
 app.post(

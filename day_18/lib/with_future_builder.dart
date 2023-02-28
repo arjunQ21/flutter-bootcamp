@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:day_18/functions.dart';
 import 'package:day_18/models/post.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class PullWithFutureBuilder extends StatelessWidget {
   const PullWithFutureBuilder({super.key});
@@ -12,7 +9,7 @@ class PullWithFutureBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pull with FutureBuilder")),
+      appBar: AppBar(title: const Text("Pull with FutureBuilder")),
       body: FutureBuilder(
           future: getPosts(),
           builder: (context, snapshot) {
@@ -32,7 +29,7 @@ class PullWithFutureBuilder extends StatelessWidget {
               );
             }
 
-            return Center(
+            return const Center(
               child: CupertinoActivityIndicator(
                 radius: 20,
               ),
