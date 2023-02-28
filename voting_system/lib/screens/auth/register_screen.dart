@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import '/utils/constants.dart';
 
 // screens
-import '/screens/login_screen.dart';
+import 'login_screen.dart';
 
 // components
-import '/components/custom_button.dart';
-import '/components/custom_textfield.dart';
+import '../../components/global/custom_button.dart';
+import '../../components/global/custom_textfield.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);

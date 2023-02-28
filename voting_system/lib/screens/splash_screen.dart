@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voting_system/constants.dart';
-import 'package:voting_system/screens/home_screen.dart';
-import 'package:voting_system/screens/login_screen.dart';
+import 'package:voting_system/screens/system/home_screen.dart';
+import 'package:voting_system/screens/auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

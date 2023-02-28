@@ -6,19 +6,19 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:voting_system/constants.dart';
-import 'package:voting_system/screens/home_screen.dart';
+import 'package:voting_system/screens/system/home_screen.dart';
 
 // utils
-import '../utils/functions.dart';
+import '../../utils/functions.dart';
 import '/utils/constants.dart';
 
 // screens
-import '/screens/register_screen.dart';
+import 'register_screen.dart';
 
 // components
-import '/components/custom_button.dart';
-import '/components/custom_link_badge.dart';
-import '/components/custom_textfield.dart';
+import '../../components/global/custom_button.dart';
+import '../../components/auth/custom_link_badge.dart';
+import '../../components/global/custom_textfield.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
