@@ -1,7 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:voting_system/components/global/post_card.dart';
+import 'package:voting_system/providers/voting_provider.dart';
+
+import '../../models/voting.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({Key? key}) : super(key: key);
@@ -13,28 +17,22 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        children: [
-          PostCard(
-            isAdmin: true,
-            postTitle: 'President Of Nepal',
-            startTime: DateTime.now(),
-            endTime: DateTime.now(),
-            candiates: 2,
-            handleView: () {
-              print('View');
-            },
-            handleEdit: () {
-              print('Edit');
-            },
-            handleDelete: () {
-              print('Delete');
-            },
+    return Consumer<VotingProvider>(builder: (context, votingProvider, child) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              for (Voting voting in votingProvider.votings)
+                PostCard(
+                  isAdmin: true,
+                  voting: voting,
+                ),
+            ],
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }

@@ -26,7 +26,7 @@ class CreatePostScreen extends StatefulWidget {
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final DateFormat dateFormatter = DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY);
+  
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
@@ -71,7 +71,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         body: toJSONString,
       );
 
-      print(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Created Successfully"),
+      ));
+      Navigator.of(context).pop();
     }
   }
 

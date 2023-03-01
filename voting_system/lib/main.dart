@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voting_system/providers/user_provider.dart';
-
-// screens
-import 'package:voting_system/screens/home_screen.dart';
+import 'package:voting_system/providers/voting_provider.dart';
 import 'package:voting_system/screens/splash_screen.dart';
-// import 'package:voting_system/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => VotingProvider()),
       ],
       child: const MaterialApp(
         title: 'Form Validation',

@@ -1,28 +1,16 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:voting_system/utils/constants.dart';
 
+import '../../models/voting.dart';
+
 class PostCard extends StatelessWidget {
+  Voting voting;
   bool isAdmin;
-  String postTitle;
-  DateTime startTime;
-  DateTime endTime;
-  int candiates;
-  Function? handleView;
-  Function? handleEdit;
-  Function? handleDelete;
 
   PostCard({
     Key? key,
-    required this.isAdmin,
-    required this.postTitle,
-    required this.startTime,
-    required this.endTime,
-    required this.candiates,
-    this.handleView,
-    this.handleEdit,
-    this.handleDelete,
+    required this.voting,
+    this.isAdmin = true,
   }) : super(key: key);
 
   List<PopupMenuItem<int>> popupItems = const [
@@ -54,23 +42,24 @@ class PostCard extends StatelessWidget {
     }
   }
 
-  handlePopup(value) {
-    switch (value) {
-      case 0:
-        handleView!();
-        break;
-      case 1:
-        handleEdit!();
-        break;
-      case 2:
-        handleDelete!();
-        break;
-    }
-  }
+  // handlePopup(value) {
+  //   switch (value) {
+  //     case 0:
+  //       handleView!();
+  //       break;
+  //     case 1:
+  //       handleEdit!();
+  //       break;
+  //     case 2:
+  //       handleDelete!();
+  //       break;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 20.0),
       padding: const EdgeInsets.symmetric(
         horizontal: 15.0,
         vertical: 15.0,
@@ -96,7 +85,7 @@ class PostCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    postTitle,
+                    voting.title,
                     style: const TextStyle(
                       color: kDarkColor,
                       fontSize: 18.0,
@@ -106,16 +95,18 @@ class PostCard extends StatelessWidget {
                   const SizedBox(
                     width: 5.0,
                   ),
-                  const Icon(
+                  Icon(
                     Icons.circle,
                     size: 14.0,
-                    color: kFailureColor,
+                    color: (voting.status == 'hidden')
+                        ? kFailureColor
+                        : kSuccessColor,
                   )
                 ],
               ),
               PopupMenuButton<int>(
                 tooltip: 'More',
-                onSelected: ((value) => handlePopup(value)),
+                // onSelected: ((value) => handlePopup(value)),
                 itemBuilder: (context) => getPopupItems(),
               ),
             ],
@@ -134,7 +125,7 @@ class PostCard extends StatelessWidget {
                 width: 10.0,
               ),
               Text(
-                startTime.toString(),
+                dateFormatter.format(voting.from),
                 style: TextStyle(
                   color: kDarkColor.withOpacity(0.8),
                   fontSize: 16.0,
@@ -157,7 +148,7 @@ class PostCard extends StatelessWidget {
                 width: 10.0,
               ),
               Text(
-                endTime.toString(),
+                dateFormatter.format(voting.to),
                 style: TextStyle(
                   color: kDarkColor.withOpacity(0.8),
                   fontSize: 16.0,
@@ -180,7 +171,7 @@ class PostCard extends StatelessWidget {
                 width: 10.0,
               ),
               Text(
-                candiates.toString(),
+                3.toString(),
                 style: TextStyle(
                   color: kDarkColor.withOpacity(0.8),
                   fontSize: 16.0,
