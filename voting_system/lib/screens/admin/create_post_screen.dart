@@ -26,6 +26,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   TextEditingController descController = TextEditingController();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+  // endDate.minus
+// endDate.to
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
 

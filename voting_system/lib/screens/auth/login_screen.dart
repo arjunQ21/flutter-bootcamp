@@ -3,12 +3,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 // screens
 import 'package:voting_system/screens/home_screen.dart';
 
 // utils
 import 'package:voting_system/utils/constants.dart';
+import '../../models/user.dart';
+import '../../providers/user_provider.dart';
 import '../../utils/functions.dart';
 
 // screens
@@ -70,15 +73,29 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         body: jsonString,
       );
-      var decoded = jsonDecode(response.body);
-      if (decoded['status'] == 'success') {
+      var jsonDecoded = jsonDecode(response.body);
+      if (jsonDecoded['status'] == 'success') {
         // save token
-        String obtainedToken = decoded['data']['tokens']['access']['token'];
+        String obtainedToken = jsonDecoded['data']['tokens']['access']['token'];
         saveToken(obtainedToken);
+
+        // Parsing the user data from the response
+        Map<String, dynamic> obtainedUser = jsonDecoded['data']['user'];
+        // adding 'token' to fit user Model
+        obtainedUser['token'] = obtainedToken;
+        // changing to user model
+        User userFromResponse = User.fromJson(obtainedUser);
+        // print(jsonDecoded['data']['user']);
+
+        // put obtained user in provider
+        Provider.of<UserProvider>(context, listen: false)
+            .setUser(userFromResponse);
+
+// naviagate to home page
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(
-              isAdmin: true,
+            builder: (context) => HomeScreen(
+              isAdmin: userFromResponse.role == 'admin',
             ),
           ),
         );
@@ -101,10 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
-        if (decoded.containsKey('message')) {
+        if (jsonDecoded.containsKey('message')) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(decoded['message']),
+              content: Text(jsonDecoded['message']),
               backgroundColor: Colors.red.shade300,
               behavior: SnackBarBehavior.floating,
               duration: const Duration(

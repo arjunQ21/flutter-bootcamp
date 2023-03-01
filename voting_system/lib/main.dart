@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voting_system/providers/user_provider.dart';
 
 // screens
 import 'package:voting_system/screens/home_screen.dart';
+import 'package:voting_system/screens/splash_screen.dart';
 // import 'package:voting_system/screens/splash_screen.dart';
 
 void main() {
@@ -13,13 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Form Validation',
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(
-        isAdmin: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
+      child: const MaterialApp(
+        title: 'Form Validation',
+        debugShowCheckedModeBanner: false,
+        // home: HomeScreen(
+        //   isAdmin: true,
+        // ),
+        home: SplashScreen(),
       ),
-      // home: SplashScreen(),
     );
   }
 }
