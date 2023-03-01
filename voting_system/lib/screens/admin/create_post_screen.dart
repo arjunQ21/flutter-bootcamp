@@ -1,14 +1,20 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 // components
 import 'package:voting_system/components/global/custom_button.dart';
 import 'package:voting_system/components/global/custom_textfield.dart';
+import 'package:voting_system/providers/user_provider.dart';
 
 // utils
 import 'package:voting_system/utils/constants.dart';
+
+import '../../models/user.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({Key? key}) : super(key: key);
@@ -38,9 +44,34 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return null;
   }
 
-  void handleCreate() {
+  void handleCreate() async {
     if (_formKey.currentState!.validate()) {
-      print('Create Post');
+      Map<String, dynamic> toSend = {
+        "title": titleController.text,
+        "description": descController.text,
+        "from": startDate.millisecondsSinceEpoch,
+        "to": endDate.millisecondsSinceEpoch,
+      };
+
+// to json string
+      String toJSONString = jsonEncode(toSend);
+
+// sending to server
+      print(toJSONString);
+
+      User loggedInUser =
+          Provider.of<UserProvider>(context, listen: false).user!;
+
+      var response = await http.post(
+        Uri.parse("$baseURL/votings"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer ${loggedInUser.token}",
+        },
+        body: toJSONString,
+      );
+
+      print(response.body);
     }
   }
 
