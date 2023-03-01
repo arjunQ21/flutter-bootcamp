@@ -9,9 +9,10 @@ class CustomTextField extends StatefulWidget {
   String label;
   String placeholder;
   TextInputType inputType;
-  TextEditingController fieldController;
+  TextEditingController? fieldController;
   String? Function(String?) handleValidation;
   IconData? prefixIcon;
+  String? initialValue;
   IconData? suffixIcon;
   bool isPassword;
   void Function()? handleTap;
@@ -22,8 +23,9 @@ class CustomTextField extends StatefulWidget {
     required this.label,
     required this.placeholder,
     this.inputType = TextInputType.text,
-    required this.fieldController,
+    this.fieldController,
     required this.handleValidation,
+    this.initialValue,
     this.prefixIcon,
     this.suffixIcon,
     this.isPassword = false,
@@ -55,6 +57,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: 10.0,
         ),
         TextFormField(
+          initialValue: widget.initialValue,
           readOnly: widget.readOnly,
           controller: widget.fieldController,
           validator: widget.handleValidation,

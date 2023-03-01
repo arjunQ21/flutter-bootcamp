@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // components
 import 'package:voting_system/components/global/custom_button.dart';
@@ -19,8 +20,12 @@ class CreatePostScreen extends StatefulWidget {
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  final DateFormat dateFormatter = DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY);
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
 
@@ -38,27 +43,40 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   chooseStartTime() async {
-    DateTime? pickDate = await showDatePicker(
+    var pickDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: startDate,
+      firstDate: DateTime.now().subtract(Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    setState(() {
-      startDateController.text = pickDate.toString();
-    });
+    if (pickDate != null) {
+      setState(() {
+        startDate = pickDate;
+        startDateController.text = dateFormatter.format(startDate);
+      });
+    }
   }
 
   chooseEndTime() async {
     DateTime? pickDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: endDate,
+      firstDate: DateTime.now().subtract(Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    setState(() {
-      endDateController.text = pickDate.toString();
-    });
+    if (pickDate != null) {
+      setState(() {
+        endDate = pickDate;
+        endDateController.text = dateFormatter.format(endDate);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startDateController.text = dateFormatter.format(startDate);
+    endDateController.text = dateFormatter.format(endDate);
   }
 
   @override
@@ -107,8 +125,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
                 CustomTextField(
                   label: "Start Date",
-                  placeholder: "Choose start date",
                   fieldController: startDateController,
+                  placeholder: "Choose start date",
                   handleValidation: handleValidation,
                   readOnly: true,
                   handleTap: chooseStartTime,
@@ -118,8 +136,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
                 CustomTextField(
                   label: "End Date",
-                  placeholder: "Choose end date",
                   fieldController: endDateController,
+                  placeholder: "Choose end date",
                   handleValidation: handleValidation,
                   readOnly: true,
                   handleTap: chooseEndTime,
