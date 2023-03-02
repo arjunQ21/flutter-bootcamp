@@ -3,12 +3,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // components
 import 'package:voting_system/components/global/custom_button.dart';
 import 'package:voting_system/components/global/custom_textfield.dart';
+import 'package:voting_system/models/candidate.dart';
 import 'package:voting_system/providers/user_provider.dart';
 
 // utils
@@ -19,7 +19,8 @@ import '../../models/voting.dart';
 import '../../providers/voting_provider.dart';
 
 class CreateCandidatePage extends StatefulWidget {
-  const CreateCandidatePage({Key? key}) : super(key: key);
+  final Voting voting;
+  const CreateCandidatePage({Key? key, required this.voting}) : super(key: key);
 
   @override
   State<CreateCandidatePage> createState() => _CreateCandidatePageState();
@@ -30,12 +31,6 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
-  // endDate.minus
-// endDate.to
-  TextEditingController startDateController = TextEditingController();
-  TextEditingController endDateController = TextEditingController();
 
   String? handleValidation(String? value) {
     if (value == null || value.isEmpty || value.trim() == '') {
@@ -47,23 +42,17 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
   void handleCreate() async {
     if (_formKey.currentState!.validate()) {
       Map<String, dynamic> toSend = {
-        "title": titleController.text,
+        "name": titleController.text,
         "description": descController.text,
-        "from": startDate.millisecondsSinceEpoch,
-        "to": endDate.millisecondsSinceEpoch,
       };
-
 // to json string
       String toJSONString = jsonEncode(toSend);
-
 // sending to server
       print(toJSONString);
-
       User loggedInUser =
           Provider.of<UserProvider>(context, listen: false).user!;
-
       var response = await http.post(
-        Uri.parse("$baseURL/votings"),
+        Uri.parse("$baseURL/votings/${widget.voting.id}/candidates"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': "Bearer ${loggedInUser.token}",
@@ -74,12 +63,12 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
       var decodedResponse = jsonDecode(response.body);
 
       if (decodedResponse['status'] == 'success') {
-// parsing to voting
-        Voting addedVoting = Voting.fromJson(decodedResponse['data']);
-// updating the provider
+// // parsing to Candidate
+        Candidate addedCandidate = Candidate.fromJson(decodedResponse['data']);
+// // updating the provider
         Provider.of<VotingProvider>(context, listen: false)
-            .setVoting(addedVoting);
-        // showing snackbar
+            .addCandidate(addedCandidate);
+//         // showing snackbar
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Added Successfully"),
         ));
@@ -93,48 +82,11 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
     }
   }
 
-  chooseStartTime() async {
-    var pickDate = await showDatePicker(
-      context: context,
-      initialDate: startDate,
-      firstDate: DateTime.now().subtract(Duration(days: 365)),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (pickDate != null) {
-      setState(() {
-        startDate = pickDate;
-        startDateController.text = dateFormatter.format(startDate);
-      });
-    }
-  }
-
-  chooseEndTime() async {
-    DateTime? pickDate = await showDatePicker(
-      context: context,
-      initialDate: endDate,
-      firstDate: DateTime.now().subtract(Duration(days: 365)),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (pickDate != null) {
-      setState(() {
-        endDate = pickDate;
-        endDateController.text = dateFormatter.format(endDate);
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startDateController.text = dateFormatter.format(startDate);
-    endDateController.text = dateFormatter.format(endDate);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Candidate'),
+        title: const Text('Manage Candidate'),
         centerTitle: true,
         toolbarHeight: 65,
         backgroundColor: kPrimaryColor,
@@ -156,6 +108,10 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Text("Add New Candidate"),
+                const SizedBox(
+                  height: 20.0,
+                ),
                 CustomTextField(
                   label: "Name",
                   placeholder: "Enter Name",
@@ -174,7 +130,19 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                CustomButton(name: "Add Candidate", handleClicked: handleCreate)
+                CustomButton(
+                    name: "Add Candidate", handleClicked: handleCreate),
+                Divider(),
+                Text("Candidates"),
+                for (Candidate c in widget.voting.candidates)
+                  ListTile(
+                    title: Text(c.name),
+                    subtitle: Text(c.description),
+                    trailing: IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {},
+                    ),
+                  ),
               ],
             ),
           ),

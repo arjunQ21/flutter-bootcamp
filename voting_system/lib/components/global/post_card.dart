@@ -230,7 +230,7 @@ class PostCard extends StatelessWidget {
                 width: 10.0,
               ),
               Text(
-                3.toString(),
+                voting.candidates.length.toString(),
                 style: TextStyle(
                   color: kDarkColor.withOpacity(0.8),
                   fontSize: 16.0,

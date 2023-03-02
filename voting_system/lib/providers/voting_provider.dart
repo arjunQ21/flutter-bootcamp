@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:voting_system/models/candidate.dart';
 import 'package:voting_system/utils/constants.dart';
 
 import '../models/voting.dart';
@@ -23,6 +24,22 @@ class VotingProvider with ChangeNotifier {
   void init() async {
     await getAuthToken();
     await fetchAllVotings();
+  }
+
+  void addCandidate(Candidate candidateToAdd) {
+    // Finding voting to add
+    int foundIndex = -1;
+    for (int i = 0; i < votings.length; i++) {
+      if (votings[i].id == candidateToAdd.votingId) {
+        foundIndex = i;
+      }
+    }
+    if (foundIndex == -1) throw Exception("Voting not found");
+    // add candidate to voting
+    votings[foundIndex].candidates.add(candidateToAdd);
+
+    //update UI
+    notifyListeners();
   }
 
   void delete(String votingID) {
