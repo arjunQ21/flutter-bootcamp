@@ -18,14 +18,14 @@ import '../../models/user.dart';
 import '../../models/voting.dart';
 import '../../providers/voting_provider.dart';
 
-class CreatePostScreen extends StatefulWidget {
-  const CreatePostScreen({Key? key}) : super(key: key);
+class CreateCandidatePage extends StatefulWidget {
+  const CreateCandidatePage({Key? key}) : super(key: key);
 
   @override
-  State<CreatePostScreen> createState() => _CreatePostScreenState();
+  State<CreateCandidatePage> createState() => _CreateCandidatePageState();
 }
 
-class _CreatePostScreenState extends State<CreatePostScreen> {
+class _CreateCandidatePageState extends State<CreateCandidatePage> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleController = TextEditingController();
@@ -134,7 +134,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Post'),
+        title: const Text('Add Candidate'),
         centerTitle: true,
         toolbarHeight: 65,
         backgroundColor: kPrimaryColor,
@@ -157,8 +157,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomTextField(
-                  label: "Title",
-                  placeholder: "Enter title",
+                  label: "Name",
+                  placeholder: "Enter Name",
                   fieldController: titleController,
                   handleValidation: handleValidation,
                 ),
@@ -174,29 +174,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                CustomTextField(
-                  label: "Start Date",
-                  fieldController: startDateController,
-                  placeholder: "Choose start date",
-                  handleValidation: handleValidation,
-                  readOnly: true,
-                  handleTap: chooseStartTime,
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                CustomTextField(
-                  label: "End Date",
-                  fieldController: endDateController,
-                  placeholder: "Choose end date",
-                  handleValidation: handleValidation,
-                  readOnly: true,
-                  handleTap: chooseEndTime,
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                CustomButton(name: "Create Post", handleClicked: handleCreate)
+                CustomButton(name: "Add Candidate", handleClicked: handleCreate)
               ],
             ),
           ),

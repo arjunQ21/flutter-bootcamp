@@ -25,6 +25,22 @@ class VotingProvider with ChangeNotifier {
     await fetchAllVotings();
   }
 
+  void delete(String votingID) {
+    int foundIndex = -1;
+    for (int i = 0; i < votings.length; i++) {
+      if (votings[i].id == votingID) {
+        foundIndex = i;
+      }
+    }
+
+    if (foundIndex != -1) {
+      votings.removeAt(foundIndex);
+    } else {
+      print("Voting not found");
+    }
+    notifyListeners();
+  }
+
   void setVoting(Voting voting) {
 // finding voting from the list
     int foundIndex = -1;

@@ -1,7 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:voting_system/utils/constants.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voting_system/utils/constants.dart';
+import 'package:http/http.dart' as http;
 import '../../models/voting.dart';
+import '../../providers/user_provider.dart';
+import '../../providers/voting_provider.dart';
 import '../../screens/admin/edit_post_screen.dart';
 
 class PostCard extends StatelessWidget {
@@ -67,8 +72,27 @@ class PostCard extends StatelessWidget {
             child: Text("Cancel"),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
+            onPressed: () async {
+              // Navigator.of(context).pop();
+              var response = await http
+                  .delete(Uri.parse("$baseURL/votings/${voting.id}"), headers: {
+                'Authorization':
+                    "Bearer ${Provider.of<UserProvider>(context, listen: false).user!.token}"
+              });
+
+              var decoded = jsonDecode(response.body);
+
+              if (decoded['status'] == 'success') {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Deleted successfully")));
+                Navigator.of(context).pop();
+                // update provider
+                Provider.of<VotingProvider>(context, listen: false)
+                    .delete(voting.id);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Could not delete: $decoded")));
+              }
             },
             child: Text("Delete"),
           ),

@@ -9,6 +9,7 @@ import 'package:voting_system/components/global/custom_button.dart';
 import 'package:voting_system/components/global/custom_textfield.dart';
 import 'package:voting_system/providers/user_provider.dart';
 import 'package:voting_system/providers/voting_provider.dart';
+import 'package:voting_system/screens/admin/add_candidate.dart';
 
 // utils
 import 'package:voting_system/utils/constants.dart';
@@ -216,7 +217,19 @@ class _EditPostScreenState extends State<EditPostScreen> {
                 const SizedBox(
                   height: 30.0,
                 ),
-                CustomButton(name: "Update Post", handleClicked: handleUpdate)
+                CustomButton(name: "Update Post", handleClicked: handleUpdate),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                CustomButton(
+                  name: "Add Candidates",
+                  handleClicked: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CreateCandidatePage()));
+                  },
+                  bgColor: Colors.grey.withOpacity(0.3),
+                  textColor: Colors.black,
+                ),
               ],
             ),
           ),
