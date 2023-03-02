@@ -25,6 +25,27 @@ class VotingProvider with ChangeNotifier {
     await fetchAllVotings();
   }
 
+  void setVoting(Voting voting) {
+// finding voting from the list
+    int foundIndex = -1;
+
+    for (int i = 0; i < votings.length; i++) {
+      if (votings[i].id == voting.id) {
+        foundIndex = i;
+      }
+    }
+
+    if (foundIndex == -1) {
+      // condition of adding new voting
+      votings.add(voting);
+    } else {
+      // condition of updating existing voting
+      votings[foundIndex] = voting;
+    }
+
+    notifyListeners();
+  }
+
   Future<void> fetchAllVotings() async {
     var response = await http.get(Uri.parse("$baseURL/votings"), headers: {
       "Authorization": "Bearer $accessToken",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:voting_system/utils/constants.dart';
 
 import '../../models/voting.dart';
+import '../../screens/admin/edit_post_screen.dart';
 
 class PostCard extends StatelessWidget {
   Voting voting;
@@ -42,19 +43,53 @@ class PostCard extends StatelessWidget {
     }
   }
 
-  // handlePopup(value) {
-  //   switch (value) {
-  //     case 0:
-  //       handleView!();
-  //       break;
-  //     case 1:
-  //       handleEdit!();
-  //       break;
-  //     case 2:
-  //       handleDelete!();
-  //       break;
-  //   }
-  // }
+  void handleEdit(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditPostScreen(
+          voting: voting,
+        ),
+      ),
+    );
+  }
+
+  void handleDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Are you sure?"),
+        content: Text("This cannot be undone."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Delete"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  handlePopup(value, BuildContext context) {
+    switch (value) {
+      // case 0:
+      //   handleView!();
+      //   break;
+      case 1:
+        handleEdit(context);
+        break;
+      case 2:
+        handleDelete(context);
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +141,7 @@ class PostCard extends StatelessWidget {
               ),
               PopupMenuButton<int>(
                 tooltip: 'More',
-                // onSelected: ((value) => handlePopup(value)),
+                onSelected: ((value) => handlePopup(value, context)),
                 itemBuilder: (context) => getPopupItems(),
               ),
             ],
