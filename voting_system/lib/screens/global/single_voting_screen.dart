@@ -160,7 +160,9 @@ class _VotingCandidateCardState extends State<VotingCandidateCard> {
                         if (jsonDecoded['status'] == 'success') {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => VerifyOTPPage(),
+                              builder: (context) => VerifyOTPPage(
+                                candidate: widget.candidate,
+                              ),
                             ),
                           );
                         } else {

@@ -7,14 +7,14 @@ import '/utils/constants.dart';
 
 class CustomButton extends StatelessWidget {
   String name;
-  void Function() handleClicked;
+  void Function()? handleClicked;
   Color bgColor;
   Color textColor;
 
   CustomButton({
     Key? key,
     required this.name,
-    required this.handleClicked,
+     this.handleClicked,
     this.bgColor = kPrimaryColor,
     this.textColor = kLightColor,
   }) : super(key: key);
