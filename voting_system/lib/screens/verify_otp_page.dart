@@ -76,7 +76,7 @@ Please enter the code below to confirm its you.''',
                 height: 30,
               ),
               CustomButton(
-                  name: _isSendingReq ? "...." : "Confirm and Vote",
+                  name: _isSendingReq ? "..loading.." : "Confirm and Vote",
                   handleClicked: _isSendingReq
                       ? null
                       : () async {
