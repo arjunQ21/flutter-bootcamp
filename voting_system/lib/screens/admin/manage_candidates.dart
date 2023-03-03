@@ -147,8 +147,10 @@ class _ManageCandidatesPageState extends State<ManageCandidatesPage> {
                         Text("No Candidates Yet"),
                       for (Candidate c in refreshedVoting.candidates)
                         ListTile(
-                          leading:
-                              c.image != null ? Image.network(c.image!) : null,
+                          leading: c.image != null
+                              ? CircleAvatar(
+                                  backgroundImage: NetworkImage(c.image!))
+                              : null,
                           title: Text(c.name),
                           subtitle: Text(c.description),
                           trailing: IconButton(

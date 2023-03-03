@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voting_system/screens/global/single_voting_screen.dart';
 import 'package:voting_system/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import '../../models/voting.dart';
@@ -46,6 +47,16 @@ class PostCard extends StatelessWidget {
       }
       return items;
     }
+  }
+
+  void handleView(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SingleVotingPage(
+          voting: voting,
+        ),
+      ),
+    );
   }
 
   void handleEdit(BuildContext context) {
@@ -103,9 +114,9 @@ class PostCard extends StatelessWidget {
 
   handlePopup(value, BuildContext context) {
     switch (value) {
-      // case 0:
-      //   handleView!();
-      //   break;
+      case 0:
+        handleView(context);
+        break;
       case 1:
         handleEdit(context);
         break;

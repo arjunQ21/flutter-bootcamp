@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voting_system/components/global/post_card.dart';
+import 'package:voting_system/providers/user_provider.dart';
 import 'package:voting_system/providers/voting_provider.dart';
 
 import '../../models/voting.dart';
@@ -17,7 +18,8 @@ class PostScreen extends StatefulWidget {
 class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<VotingProvider>(builder: (context, votingProvider, child) {
+    return Consumer2<VotingProvider, UserProvider>(
+        builder: (context, votingProvider, userProvider, child) {
       return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
@@ -26,7 +28,7 @@ class _PostScreenState extends State<PostScreen> {
             children: [
               for (Voting voting in votingProvider.votings)
                 PostCard(
-                  isAdmin: true,
+                  isAdmin: userProvider.user!.role == 'admin',
                   voting: voting,
                 ),
             ],

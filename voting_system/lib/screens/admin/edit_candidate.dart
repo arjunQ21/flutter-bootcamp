@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voting_system/screens/admin/set_candidate_image.dart';
 
+import '../../components/global/candidate_image.dart';
 import '../../components/global/custom_button.dart';
 import '../../components/global/custom_textfield.dart';
 import '../../models/user.dart';
@@ -139,22 +140,7 @@ class _EditCandidatePageState extends State<EditCandidatePage> {
                     height: 20.0,
                   ),
                   if (widget.candidate.image != null)
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20.0),
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(widget.candidate.image!),
-                        ),
-                        borderRadius: BorderRadius.circular(10000.0),
-                        border: Border.all(
-                          color: Colors.blue,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
+                    CandidateImage(candidate: widget.candidate),
                   CustomButton(
                     name: "Update Image",
                     handleClicked: () {
