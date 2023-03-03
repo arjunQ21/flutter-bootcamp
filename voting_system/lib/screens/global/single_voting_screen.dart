@@ -115,6 +115,7 @@ class VotingCandidateCard extends StatelessWidget {
               fontStyle: FontStyle.italic,
             ),
           ),
+          ElevatedButton(onPressed: () {}, child: Text("Vote")),
         ],
       ),
     );

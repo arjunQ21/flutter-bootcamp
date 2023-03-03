@@ -128,129 +128,134 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 20.0),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15.0,
-        vertical: 15.0,
-      ),
-      decoration: BoxDecoration(
-        color: kLightColor,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF38476D).withOpacity(0.09),
-            spreadRadius: 0,
-            blurRadius: 30,
-            offset: const Offset(0, 0),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    voting.title,
-                    style: const TextStyle(
-                      color: kDarkColor,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w700,
+    return InkWell(
+      onTap: () {
+        handleView(context);
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 20.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15.0,
+          vertical: 15.0,
+        ),
+        decoration: BoxDecoration(
+          color: kLightColor,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF38476D).withOpacity(0.09),
+              spreadRadius: 0,
+              blurRadius: 30,
+              offset: const Offset(0, 0),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      voting.title,
+                      style: const TextStyle(
+                        color: kDarkColor,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
+                    const SizedBox(
+                      width: 5.0,
+                    ),
+                    Icon(
+                      Icons.circle,
+                      size: 14.0,
+                      color: (voting.status == 'hidden')
+                          ? kFailureColor
+                          : kSuccessColor,
+                    )
+                  ],
+                ),
+                PopupMenuButton<int>(
+                  tooltip: 'More',
+                  onSelected: ((value) => handlePopup(value, context)),
+                  itemBuilder: (context) => getPopupItems(),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 0.0,
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.timer,
+                  color: kSuccessColor,
+                  size: 24.0,
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  dateFormatter.format(voting.from),
+                  style: TextStyle(
+                    color: kDarkColor.withOpacity(0.8),
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
                   ),
-                  const SizedBox(
-                    width: 5.0,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 5.0,
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.timer_off,
+                  color: kFailureColor,
+                  size: 24.0,
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  dateFormatter.format(voting.to),
+                  style: TextStyle(
+                    color: kDarkColor.withOpacity(0.8),
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
                   ),
-                  Icon(
-                    Icons.circle,
-                    size: 14.0,
-                    color: (voting.status == 'hidden')
-                        ? kFailureColor
-                        : kSuccessColor,
-                  )
-                ],
-              ),
-              PopupMenuButton<int>(
-                tooltip: 'More',
-                onSelected: ((value) => handlePopup(value, context)),
-                itemBuilder: (context) => getPopupItems(),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 0.0,
-          ),
-          Row(
-            children: [
-              const Icon(
-                Icons.timer,
-                color: kSuccessColor,
-                size: 24.0,
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                dateFormatter.format(voting.from),
-                style: TextStyle(
-                  color: kDarkColor.withOpacity(0.8),
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 5.0,
+            ),
+            Row(
+              children: [
+                Icon(
+                  Icons.person,
+                  color: kDarkColor.withOpacity(0.5),
+                  size: 24.0,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          Row(
-            children: [
-              const Icon(
-                Icons.timer_off,
-                color: kFailureColor,
-                size: 24.0,
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                dateFormatter.format(voting.to),
-                style: TextStyle(
-                  color: kDarkColor.withOpacity(0.8),
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
+                const SizedBox(
+                  width: 10.0,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.person,
-                color: kDarkColor.withOpacity(0.5),
-                size: 24.0,
-              ),
-              const SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                voting.candidates.length.toString(),
-                style: TextStyle(
-                  color: kDarkColor.withOpacity(0.8),
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              )
-            ],
-          ),
-        ],
+                Text(
+                  voting.candidates.length.toString(),
+                  style: TextStyle(
+                    color: kDarkColor.withOpacity(0.8),
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
