@@ -22,7 +22,7 @@ class _VerifyOTPPageState extends State<VerifyOTPPage> {
         key: _formKey,
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Verify OTP Page"),
+            title: Text("Verify OTP"),
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),

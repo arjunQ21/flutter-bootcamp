@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:voting_system/components/global/candidate_image.dart';
 import 'package:voting_system/models/candidate.dart';
+import 'package:voting_system/providers/user_provider.dart';
 import 'package:voting_system/screens/verify_otp_page.dart';
+import 'package:voting_system/utils/constants.dart';
 
 import '../../models/voting.dart';
 
@@ -73,13 +80,20 @@ class SingleVotingPage extends StatelessWidget {
   }
 }
 
-class VotingCandidateCard extends StatelessWidget {
+class VotingCandidateCard extends StatefulWidget {
   const VotingCandidateCard({
     Key? key,
     required this.candidate,
   }) : super(key: key);
 
   final Candidate candidate;
+
+  @override
+  State<VotingCandidateCard> createState() => _VotingCandidateCardState();
+}
+
+class _VotingCandidateCardState extends State<VotingCandidateCard> {
+  bool isSendingAPIRequest = false;
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +111,10 @@ class VotingCandidateCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          if (candidate.image != null) CandidateImage(candidate: candidate),
+          if (widget.candidate.image != null)
+            CandidateImage(candidate: widget.candidate),
           Text(
-            candidate.name,
+            widget.candidate.name,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -110,21 +125,64 @@ class VotingCandidateCard extends StatelessWidget {
             height: 14,
           ),
           Text(
-            candidate.description,
+            widget.candidate.description,
             style: TextStyle(
               fontSize: 17,
               fontStyle: FontStyle.italic,
             ),
           ),
           ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => VerifyOTPPage(),
-                  ),
-                );
-              },
-              child: Text("Vote")),
+              onPressed: isSendingAPIRequest
+                  ? null
+                  : () async {
+                      setState(() {
+                        isSendingAPIRequest = true;
+                      });
+
+                      try {
+                        var bodyOfReq = {
+                          "email":
+                              Provider.of<UserProvider>(context, listen: false)
+                                  .user!
+                                  .email,
+                        };
+
+                        var response = await http.post(
+                          Uri.parse("$baseURL/auth/otp/send-voting-email"),
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: jsonEncode(bodyOfReq),
+                        );
+
+                        var jsonDecoded = jsonDecode(response.body);
+
+                        if (jsonDecoded['status'] == 'success') {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VerifyOTPPage(),
+                            ),
+                          );
+                        } else {
+                          throw Exception(
+                              (jsonDecoded['message'] ?? jsonDecoded)
+                                  .toString());
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+                        );
+                      } finally {
+                        setState(() {
+                          isSendingAPIRequest = false;
+                        });
+                      }
+                    },
+              child: isSendingAPIRequest
+                  ? CupertinoActivityIndicator()
+                  : Text("Vote")),
         ],
       ),
     );
