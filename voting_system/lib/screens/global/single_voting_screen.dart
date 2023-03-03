@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:voting_system/components/global/candidate_image.dart';
 import 'package:voting_system/models/candidate.dart';
+import 'package:voting_system/screens/verify_otp_page.dart';
 
 import '../../models/voting.dart';
 
@@ -115,7 +116,15 @@ class VotingCandidateCard extends StatelessWidget {
               fontStyle: FontStyle.italic,
             ),
           ),
-          ElevatedButton(onPressed: () {}, child: Text("Vote")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => VerifyOTPPage(),
+                  ),
+                );
+              },
+              child: Text("Vote")),
         ],
       ),
     );

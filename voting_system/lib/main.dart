@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:voting_system/providers/user_provider.dart';
 import 'package:voting_system/providers/voting_provider.dart';
 import 'package:voting_system/screens/splash_screen.dart';
+import 'package:voting_system/screens/verify_otp_page.dart';
 import 'package:voting_system/utils/constants.dart';
 
 void main() {
