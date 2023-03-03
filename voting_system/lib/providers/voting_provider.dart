@@ -26,17 +26,41 @@ class VotingProvider with ChangeNotifier {
     await fetchAllVotings();
   }
 
-  void addCandidate(Candidate candidateToAdd) {
-    // Finding voting to add
-    int foundIndex = -1;
+  Voting getVotingById(String votingId) {
+    int votingIndex = -1;
     for (int i = 0; i < votings.length; i++) {
-      if (votings[i].id == candidateToAdd.votingId) {
-        foundIndex = i;
+      if (votings[i].id == votingId) {
+        votingIndex = i;
       }
     }
-    if (foundIndex == -1) throw Exception("Voting not found");
+    if (votingIndex == -1) throw Exception("Voting not found");
+    return votings[votingIndex];
+  }
+
+  void editCandidate(Candidate candidateToEdit) {
+    // Finding voting to add
+
+    Voting voting = getVotingById(candidateToEdit.votingId);
+
+    // edit candidate in voting
+    int candidateIndex = -1;
+    for (int i = 0; i < voting.candidates.length; i++) {
+      if (voting.candidates[i].id == candidateToEdit.id) {
+        candidateIndex = i;
+      }
+    }
+    if (candidateIndex == -1) throw Exception("Candidate not found");
+    voting.candidates[candidateIndex].description = candidateToEdit.description;
+    voting.candidates[candidateIndex].name = candidateToEdit.name;
+    voting.candidates[candidateIndex].image = candidateToEdit.image;
+    //update UI
+    notifyListeners();
+  }
+
+  void addCandidate(Candidate candidateToAdd) {
+    Voting voting = getVotingById(candidateToAdd.votingId);
     // add candidate to voting
-    votings[foundIndex].candidates.add(candidateToAdd);
+    voting.candidates.add(candidateToAdd);
 
     //update UI
     notifyListeners();

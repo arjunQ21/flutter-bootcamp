@@ -47,5 +47,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>I would like to upload candidates images so please give me access.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>I would like to take photos sometimes.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>I will spy on you.</string>
 </dict>
 </plist>

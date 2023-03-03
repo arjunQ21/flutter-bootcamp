@@ -10,6 +10,7 @@ import 'package:voting_system/components/global/custom_button.dart';
 import 'package:voting_system/components/global/custom_textfield.dart';
 import 'package:voting_system/models/candidate.dart';
 import 'package:voting_system/providers/user_provider.dart';
+import 'package:voting_system/screens/admin/edit_candidate.dart';
 
 // utils
 import 'package:voting_system/utils/constants.dart';
@@ -18,15 +19,16 @@ import '../../models/user.dart';
 import '../../models/voting.dart';
 import '../../providers/voting_provider.dart';
 
-class CreateCandidatePage extends StatefulWidget {
+class ManageCandidatesPage extends StatefulWidget {
   final Voting voting;
-  const CreateCandidatePage({Key? key, required this.voting}) : super(key: key);
+  const ManageCandidatesPage({Key? key, required this.voting})
+      : super(key: key);
 
   @override
-  State<CreateCandidatePage> createState() => _CreateCandidatePageState();
+  State<ManageCandidatesPage> createState() => _ManageCandidatesPageState();
 }
 
-class _CreateCandidatePageState extends State<CreateCandidatePage> {
+class _ManageCandidatesPageState extends State<ManageCandidatesPage> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController titleController = TextEditingController();
@@ -72,7 +74,7 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Added Successfully"),
         ));
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Something went wrong: " +
@@ -133,16 +135,37 @@ class _CreateCandidatePageState extends State<CreateCandidatePage> {
                 CustomButton(
                     name: "Add Candidate", handleClicked: handleCreate),
                 Divider(),
-                Text("Candidates"),
-                for (Candidate c in widget.voting.candidates)
-                  ListTile(
-                    title: Text(c.name),
-                    subtitle: Text(c.description),
-                    trailing: IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {},
-                    ),
-                  ),
+                Consumer<VotingProvider>(
+                    builder: (context, votingProvider, child) {
+                  Voting refreshedVoting =
+                      votingProvider.getVotingById(widget.voting.id);
+                  return Column(
+                    children: [
+                      if (refreshedVoting.candidates.length > 0)
+                        Text("Candidates")
+                      else
+                        Text("No Candidates Yet"),
+                      for (Candidate c in refreshedVoting.candidates)
+                        ListTile(
+                          leading:
+                              c.image != null ? Image.network(c.image!) : null,
+                          title: Text(c.name),
+                          subtitle: Text(c.description),
+                          trailing: IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditCandidatePage(candidate: c),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ],
             ),
           ),
