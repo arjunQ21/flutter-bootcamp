@@ -277,35 +277,35 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 30.0,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomLinkBadge(
-                        imageUrl: 'assets/fb.png',
-                        handleClick: () {
-                          print('Facebook is clicked');
-                        },
-                      ),
-                      const SizedBox(
-                        width: 15.0,
-                      ),
-                      CustomLinkBadge(
-                        imageUrl: 'assets/gg.png',
-                        handleClick: () {
-                          print('Goggle is clicked');
-                        },
-                      ),
-                      const SizedBox(
-                        width: 15.0,
-                      ),
-                      CustomLinkBadge(
-                        imageUrl: 'assets/ld.png',
-                        handleClick: () {
-                          print('Linkedin is clicked');
-                        },
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     CustomLinkBadge(
+                  //       imageUrl: 'assets/fb.png',
+                  //       handleClick: () {
+                  //         print('Facebook is clicked');
+                  //       },
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 15.0,
+                  //     ),
+                  //     CustomLinkBadge(
+                  //       imageUrl: 'assets/gg.png',
+                  //       handleClick: () {
+                  //         print('Goggle is clicked');
+                  //       },
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 15.0,
+                  //     ),
+                  //     CustomLinkBadge(
+                  //       imageUrl: 'assets/ld.png',
+                  //       handleClick: () {
+                  //         print('Linkedin is clicked');
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 30.0,
                   ),
