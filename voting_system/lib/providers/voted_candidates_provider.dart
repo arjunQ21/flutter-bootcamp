@@ -8,6 +8,10 @@ class VotedCandidatesProvider with ChangeNotifier {
     fetchFromAPI();
   }
 
+  bool isVotedCandidate(String candidateId) {
+    return votedCandidates.contains(candidateId);
+  }
+
   fetchFromAPI() async {
     var response = await jsendResponse.fromAPIRequest(APIRequest(
       path: "/users/me/votedCandidates",

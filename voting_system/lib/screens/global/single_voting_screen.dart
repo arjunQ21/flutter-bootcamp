@@ -100,12 +100,17 @@ class _VotingCandidateCardState extends State<VotingCandidateCard> {
   Widget build(BuildContext context) {
     return Consumer<VotedCandidatesProvider>(
         builder: (context, votedCandidatesProv, child) {
+      bool thisCandidateIsVoted() =>
+          votedCandidatesProv.isVotedCandidate(widget.candidate.id);
+
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(8.0),
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: thisCandidateIsVoted()
+              ? Colors.green.withOpacity(0.3)
+              : Colors.white,
           border: Border.all(
             color: Colors.grey,
             width: 1,
@@ -134,60 +139,75 @@ class _VotingCandidateCardState extends State<VotingCandidateCard> {
                 fontStyle: FontStyle.italic,
               ),
             ),
-            ElevatedButton(
-                onPressed: isSendingAPIRequest
-                    ? null
-                    : () async {
-                        setState(() {
-                          isSendingAPIRequest = true;
-                        });
+            if (!thisCandidateIsVoted())
+              ElevatedButton(
+                  onPressed: isSendingAPIRequest
+                      ? null
+                      : () async {
+                          setState(() {
+                            isSendingAPIRequest = true;
+                          });
 
-                        try {
-                          var bodyOfReq = {
-                            "email": Provider.of<UserProvider>(context,
-                                    listen: false)
-                                .user!
-                                .email,
-                          };
+                          try {
+                            var bodyOfReq = {
+                              "email": Provider.of<UserProvider>(context,
+                                      listen: false)
+                                  .user!
+                                  .email,
+                            };
 
-                          var response = await http.post(
-                            Uri.parse("$baseURL/auth/otp/send-voting-email"),
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: jsonEncode(bodyOfReq),
-                          );
+                            var response = await http.post(
+                              Uri.parse("$baseURL/auth/otp/send-voting-email"),
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: jsonEncode(bodyOfReq),
+                            );
 
-                          var jsonDecoded = jsonDecode(response.body);
+                            var jsonDecoded = jsonDecode(response.body);
 
-                          if (jsonDecoded['status'] == 'success') {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => VerifyOTPPage(
-                                  candidate: widget.candidate,
+                            if (jsonDecoded['status'] == 'success') {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => VerifyOTPPage(
+                                    candidate: widget.candidate,
+                                  ),
                                 ),
+                              );
+                            } else {
+                              throw Exception(
+                                  (jsonDecoded['message'] ?? jsonDecoded)
+                                      .toString());
+                            }
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.toString()),
                               ),
                             );
-                          } else {
-                            throw Exception(
-                                (jsonDecoded['message'] ?? jsonDecoded)
-                                    .toString());
+                          } finally {
+                            setState(() {
+                              isSendingAPIRequest = false;
+                            });
                           }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(e.toString()),
-                            ),
-                          );
-                        } finally {
-                          setState(() {
-                            isSendingAPIRequest = false;
-                          });
-                        }
-                      },
-                child: isSendingAPIRequest
-                    ? CupertinoActivityIndicator()
-                    : Text("Vote")),
+                        },
+                  child: isSendingAPIRequest
+                      ? CupertinoActivityIndicator()
+                      : Text("Vote"))
+            else
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon((Icons.check)),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text("Your Vote"),
+                  ],
+                ),
+              )
           ],
         ),
       );

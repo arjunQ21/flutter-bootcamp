@@ -7,6 +7,7 @@ import 'package:voting_system/components/global/custom_button.dart';
 import 'package:voting_system/components/global/custom_textfield.dart';
 import 'package:voting_system/models/candidate.dart';
 import 'package:voting_system/providers/user_provider.dart';
+import 'package:voting_system/providers/voted_candidates_provider.dart';
 import 'package:voting_system/utils/constants.dart';
 
 class VerifyOTPPage extends StatefulWidget {
@@ -135,6 +136,10 @@ Please enter the code below to confirm its you.''',
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text("Voted Successfully")));
+                                  await Provider.of<VotedCandidatesProvider>(
+                                          context,
+                                          listen: false)
+                                      .fetchFromAPI();
                                   Navigator.pop(context);
                                 } else {
                                   throw Exception("Voting Failed. " +
