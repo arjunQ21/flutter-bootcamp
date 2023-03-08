@@ -1,7 +1,7 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jsend/jsend.dart';
+import 'package:voting_system/components/global/voting_result.dart';
 
 import '../../models/voting.dart';
 
@@ -47,54 +47,9 @@ class _ResultScreenState extends State<ResultScreen> {
           var resultVotings = snapshot.data as List<Voting>;
           return SingleChildScrollView(
             child: Column(
-              // ignore: unnecessary_cast
-              children: (resultVotings
-                  .map(
-                    (rv) => SizedBox(
-                      height: 500,
-                      child: PieChart(
-                        PieChartData(
-                          pieTouchData: PieTouchData(
-                            touchCallback:
-                                (FlTouchEvent event, pieTouchResponse) {
-                              setState(() {
-                                if (!event.isInterestedForInteractions ||
-                                    pieTouchResponse == null ||
-                                    pieTouchResponse.touchedSection == null) {
-                                  touchedIndex = -1;
-                                  return;
-                                }
-                                touchedIndex = pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex;
-                              });
-                            },
-                          ),
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          sectionsSpace: 5,
-                          centerSpaceRadius: 40,
-                          // ignore: unnecessary_cast
-                          sections: (rv.candidates
-                              .map((c) => PieChartSectionData(
-                                    color: Colors.blue,
-                                    value: c.votes.toDouble(),
-                                    title: c.name,
-                                    radius: 45,
-                                    titleStyle: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red,
-                                    ),
-                                    badgeWidget: FlutterLogo(),
-                                    badgePositionPercentageOffset: .98,
-                                  ))
-                              .toList() as List<PieChartSectionData>),
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList() as List<Widget>),
+              children: resultVotings
+                  .map((rv) => VotingResultCard(voting: rv))
+                  .toList(),
             ),
           );
         }
