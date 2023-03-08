@@ -12,3 +12,14 @@ const kIconColor = Color(0xFF667085);
 String baseURL = 'https://voting.padxu.com';
 
 final DateFormat dateFormatter = DateFormat(DateFormat.YEAR_ABBR_MONTH_DAY);
+
+List<Color> votingResultColors = [
+  Colors.amber,
+  Colors.pink,
+  Colors.purple,
+  Colors.orange,
+  Colors.teal,
+  Colors.blueGrey,
+  Colors.green,
+  Colors.grey,
+];
